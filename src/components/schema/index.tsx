@@ -1,19 +1,15 @@
 import { z } from "zod";
 
 export const formSchema = z.object({
-  sender: z.string().min(1, 'Sender is required'),
-  receiver: z.string().min(1, 'Receiver is required'),
-  purpose: z.string().min(1, 'Purpose is required'),
+  emailSubject : z.string().optional(),
   length: z.string().min(1, 'Length is required'),
   tone: z.string().min(1, 'Tone is required'),
   language: z.string().min(1, 'Language is required'),
 });
 
 export const replyMailSchema = z.object({
-  sender: z.string().min(1, 'Sender is required'),
-  receiver: z.string().min(1, 'Receiver is required'),
-  receivedEmail : z.string(),
-  purpose: z.string().min(1, 'Purpose is required'),
+  replySubject: z.string().optional(),
+  receivedEmail : z.string().optional(),
   length: z.string().min(1, 'Length is required'),
   tone: z.string().min(1, 'Tone is required'),
   language: z.string().min(1, 'Language is required'),

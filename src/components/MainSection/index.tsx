@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from './Navbar'
 import EmailWrite from './EmailWrite'
 import GenerateEmail from './GenerateEmail'
 
 const MainSection = (props: any) => {
     const { setIsOpen } = props || {}
+    const [response, setResponse] = useState("")
 
     return (
         <div>
@@ -12,11 +13,11 @@ const MainSection = (props: any) => {
             <div className='flex w-full md:flex-row flex-col'>
                 <div className=' w-full md:w-[40%]'>
 
-                    <EmailWrite />
+                    <EmailWrite setResponse={setResponse} response={response}  />
                 </div>
                 <div className='w-full md:w-[60%]'>
 
-                    <GenerateEmail />
+                    <GenerateEmail setResponse={setResponse} response={response} />
                 </div>
             </div>
         </div>

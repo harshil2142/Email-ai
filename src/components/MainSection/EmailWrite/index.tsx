@@ -5,8 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ComposeNewEmail from './ComposeNewEmail';
 import ReplyToEmail from './ReplyToEmail';
 
-const EmailWrite = () => {
+const EmailWrite = (props:any) => {
 
+    const { response , setResponse } = props || {}
 
     return (
         <div className='py-6'>
@@ -20,10 +21,10 @@ const EmailWrite = () => {
                         <TabsTrigger value="replyToEmail">Reply To Email</TabsTrigger>
                     </TabsList>
                     <TabsContent value="composeNewEmail">
-                        <ComposeNewEmail />
+                        <ComposeNewEmail setResponse={setResponse} response={response} />
                     </TabsContent>
                     <TabsContent value="replyToEmail">
-                        <ReplyToEmail />
+                        <ReplyToEmail setResponse={setResponse} response={response} />
                     </TabsContent>
                 </Tabs>
                

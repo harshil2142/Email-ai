@@ -5,26 +5,34 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { TextInput, SelectOptions } from '@/components/ui/Common';
+import { TextInput, SelectOptions, Textarea } from '@/components/ui/Common';
 import { get } from 'lodash';
-import { toneOptions } from './helper';
+import { languageOptions, lengthOptions, toneOptions } from './helper';
 import { Slider } from '@/components/ui/slider';
+import { postRequest } from '@/services/api';
 
-const ReplyToEmail = () => {
+const ReplyToEmail = (props:any) => {
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    async function onSubmit(data: any) {
+        const payload = {
+            type: "reply",
+            subject: data?.emailSubject,
+            length_of_email: data?.length,
+            tone: data?.tone,
+            language: data?.language,
+            original_email : data?.receivedEmail,
+        }
+        const res = await postRequest({ data: { ...payload }, url: "/api/emails" })
+        props.setResponse(res?.data)
     };
 
     const form = useForm<z.infer<typeof replyMailSchema>>({
         resolver: zodResolver(replyMailSchema),
         defaultValues: {
-            sender: "",
-            receiver: "",
-            purpose: "",
+            replySubject: "",
+            receivedEmail: "",
             length: "",
             tone: "",
-            receivedEmail : "",
             language: "English",
         },
     });
@@ -49,28 +57,11 @@ const ReplyToEmail = () => {
                                     : "border-input"
                                     }  p-3`}
                                 form={form}
-                                name="sender"
-                                placeholder="Enter Sender Name.."
+                                name="replySubject"
                                 renderComponent={(props: any) => (
-                                    <TextInput {...props} type="text" />
+                                    <Textarea rows={4} {...props}  />
                                 )}
-                                title="Sender"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <InputWrapper
-                                required
-                                className={`rounded-lg border border-solid ${get(errors, "name", false)
-                                    ? "border-2 border-destructive"
-                                    : "border-input"
-                                    }  p-3`}
-                                form={form}
-                                name="receiver"
-                                placeholder="Enter Receiver Name.."
-                                renderComponent={(props: any) => (
-                                    <TextInput {...props} type="text" />
-                                )}
-                                title="Receiver"
+                                title="Reply Subject"
                             />
                         </div>
                         <div className="mb-4">
@@ -82,27 +73,10 @@ const ReplyToEmail = () => {
                                     }  p-3`}
                                 form={form}
                                 name="receivedEmail"
-                                // placeholder="Enter Receiver Name.."
                                 renderComponent={(props: any) => (
-                                    <TextInput {...props} type="text" />
+                                    <Textarea rows={4} {...props}  />
                                 )}
                                 title="Received Email"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <InputWrapper
-                                required
-                                className={`rounded-lg border border-solid ${get(errors, "name", false)
-                                    ? "border-2 border-destructive"
-                                    : "border-input"
-                                    }  p-3`}
-                                form={form}
-                                name="purpose"
-                                placeholder="Enter Purpose Name.."
-                                renderComponent={(props: any) => (
-                                    <TextInput {...props} type="text" />
-                                )}
-                                title="Purpose"
                             />
                         </div>
                         <div className="mb-4">
@@ -116,7 +90,15 @@ const ReplyToEmail = () => {
                                 name="length"
                                 placeholder=""
                                 renderComponent={(props: any) => (
-                                    <Slider defaultValue={[0]} max={300} step={1} onChange={props.onChange}  />
+                                    <SelectOptions
+                                        menuOptions={lengthOptions}
+                                        selectLabel={"Select Length"}
+                                        textKey="name"
+                                        valueKey="value"
+                                        className={props.className}
+                                        onChange={props.onChange}
+                                        value={props.value}
+                                    />
                                 )}
                                 title="Length"
                             />
@@ -161,7 +143,7 @@ const ReplyToEmail = () => {
                                 // placeholder="Enter language Name.."
                                 renderComponent={(props: any) => (
                                     <SelectOptions
-                                        menuOptions={[{ name: "English", value: "English" }]}
+                                        menuOptions={languageOptions}
                                         selectLabel={"Select Language"}
                                         textKey="name"
                                         valueKey="value"

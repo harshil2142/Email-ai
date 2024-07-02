@@ -1,70 +1,134 @@
 export const toneOptions = [
+    // {
+    //     name: "🔄 Default",
+    //     value: "Default",
+    // },
     {
-        name : "Default",
-        value : "Default",
+        name: "👕 Casual",
+        value: "Casual",
     },
     {
-        name : "Friendly",
-        value : "Friendly",
+        name: "😊 Friendly",
+        value: "Friendly",
     },
     {
-        name : "Funny",
-        value : "Funny",
+        name: "💼 Professional",
+        value: "Professional",
+    },
+    // {
+    //     name: "😂 Funny",
+    //     value: "Funny",
+    // },
+    
+    // {
+    //     name: "🎉 Excited",
+    //     value: "Excited",
+    // },
+    
+    // {
+    //     name: "😏 Witty",
+    //     value: "Witty",
+    // },
+    // {
+    //     name: "💎 Luxury",
+    //     value: "Luxury",
+    // },
+    // {
+    //     name: "🏞 Adventurous",
+    //     value: "Adventurous",
+    // },
+    // {
+    //     name: "🙃 Sarcastic",
+    //     value: "Sarcastic",
+    // },
+    // {
+    //     name: "🌸 Feminine",
+    //     value: "Feminine",
+    // },
+    // {
+    //     name: "🧔 Masculine",
+    //     value: "Masculine",
+    // },
+    // {
+    //     name: "💪 Bold",
+    //     value: "Bold",
+    // },
+    // {
+    //     name: "🎭 Dramatic",
+    //     value: "Dramatic",
+    // },
+    // {
+    //     name: "😠 Grumpy",
+    //     value: "Grumpy",
+    // },
+    // {
+    //     name: "🕵 Secretive",
+    //     value: "Secretive",
+    // },
+    // {
+    //     name: "🗣 Persuasive",
+    //     value: "Persuasive",
+    // },
+]
+
+export const lengthOptions = [
+    {
+        name : "Short",
+        value : "Short",
     },
     {
-        name : "Casual",
-        value : "Casual",
+        name : "Medium",
+        value : "Medium",
     },
     {
-        name : "Excited",
-        value : "Excited",
+        name : "Large",
+        value : "Large",
+    }
+]
+
+export const languageOptions = [
+    {
+        name: "English",
+        value: "English",
     },
     {
-        name : "Professional",
-        value : "Professional",
+        name: "Hindi",
+        value: "Hindi",
     },
     {
-        name : "Witty",
-        value : "Witty",
+        name: "Kannada",
+        value: "Kannada",
     },
     {
-        name : "Luxury",
-        value : "Luxury",
+        name: "Urdu",
+        value: "Urdu",
     },
     {
-        name : "Adventurous",
-        value : "Adventurous",
+        name: "Telugu",
+        value: "Telugu",
     },
     {
-        name : "Sarcastic",
-        value : "Sarcastic",
+        name: "Tamil",
+        value: "Tamil",
     },
     {
-        name : "Feminine",
-        value : "Feminine",
+        name: "Punjabi",
+        value: "Punjabi",
     },
     {
-        name : "Masculine",
-        value : "Masculine",
+        name: "Bengali",
+        value: "Bengali",
     },
     {
-        name : "Bold",
-        value : "Bold",
+        name: "Maithili",
+        value: "Maithili",
     },
     {
-        name : "Dramatic",
-        value : "Dramatic",
+        name: "Odia",
+        value: "Odia",
     },
     {
-        name : "Grumpy",
-        value : "Grumpy",
-    },
-    {
-        name : "Secretive",
-        value : "Secretive",
-    },
-    {
-        name : "Persuasive",
-        value : "Persuasive",
-    },
+        name: "Malayalam",
+        value: "Malayalam",
+    }
 ]
