@@ -16,7 +16,7 @@ const ReplyToEmail = (props:any) => {
     async function onSubmit(data: any) {
         const payload = {
             type: "reply",
-            subject: data?.emailSubject,
+            subject: data?.replySubject,
             length_of_email: data?.length,
             tone: data?.tone,
             language: data?.language,

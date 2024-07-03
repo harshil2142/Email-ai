@@ -55,6 +55,7 @@ const ComposeNewEmail = (props:any) => {
                                     }  p-3`}
                                 form={form}
                                 name="emailSubject"
+                                placeholder='Example: I am writing to propose a new marketing campaign that I believe will be effective for your business.'
                                 renderComponent={(props: any) => (
                                     <Textarea rows={8} {...props} />
                                 )}
