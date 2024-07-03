@@ -9,10 +9,16 @@ import { TextInput, SelectOptions, Textarea } from '@/components/ui/Common';
 import { get } from 'lodash';
 import { languageOptions, lengthOptions, toneOptions } from './helper';
 import { postRequest } from '@/services/api';
+import Loader from '@/components/Loader/Loader';
+import { Toast } from '@/components/ui/alert';
 
-const ComposeNewEmail = (props:any) => {
+const ComposeNewEmail = (selectProps: any) => {
+
+    const { setResponse, response, setLoading, loading } = selectProps || {}
 
     async function onSubmit(data: any) {
+<Toast title='hi' description="hi" />
+        setLoading(true)
         const payload = {
             type: "new",
             subject: data?.emailSubject,
@@ -20,16 +26,24 @@ const ComposeNewEmail = (props:any) => {
             tone: data?.tone,
             language: data?.language,
         }
-        const res = await postRequest({ data: { ...payload }, url: "/api/emails" })
-        props.setResponse(res?.data)
+        try {
+            const res = await postRequest({ data: { ...payload }, url: "/api/emails" })
+            if (res) {
+                setResponse(res?.data)
+                setLoading(false)
+            }
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
+        }
     };
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             emailSubject: "",
-            length: "",
-            tone: "",
+            length: "Short",
+            tone: "Casual",
             language: "English",
         },
     });
@@ -126,15 +140,17 @@ const ComposeNewEmail = (props:any) => {
                                 name="language"
                                 // placeholder="Enter language Name.."
                                 renderComponent={(props: any) => (
-                                    <SelectOptions
-                                        menuOptions={languageOptions}
-                                        selectLabel={"Select Language"}
-                                        textKey="name"
-                                        valueKey="value"
-                                        className={props.className}
-                                        onChange={props.onChange}
-                                        value={props.value}
-                                    />
+                                    // <SelectOptions
+                                    //     menuOptions={languageOptions}
+                                    //     selectLabel={"Select Language"}
+                                    //     textKey="name"
+                                    //     valueKey="value"
+                                    //     isDisabled={true}
+                                    //     className={props.className}
+                                    //     onChange={props.onChange}
+                                    //     value={props.value}
+                                    // />
+                                    <TextInput value="English" onChange={undefined} />
                                 )}
                                 title="Language"
                             />
@@ -142,14 +158,16 @@ const ComposeNewEmail = (props:any) => {
                         <div className="flex items-center justify-between">
                             <button
                                 type="submit"
-                                className="bg-dark hover:bg-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                disabled={loading}
+                                className="bg-dark hover:bg-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-24 text-center flex justify-center"
                             >
-                                Submit
+                                {loading ? <Loader /> : "Submit"}
                             </button>
                         </div>
                     </form>
                 </Form>
             </div>
+            
         </div>
     )
 }

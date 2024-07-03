@@ -91,44 +91,44 @@ export const languageOptions = [
         name: "English",
         value: "English",
     },
-    {
-        name: "Hindi",
-        value: "Hindi",
-    },
-    {
-        name: "Kannada",
-        value: "Kannada",
-    },
-    {
-        name: "Urdu",
-        value: "Urdu",
-    },
-    {
-        name: "Telugu",
-        value: "Telugu",
-    },
-    {
-        name: "Tamil",
-        value: "Tamil",
-    },
-    {
-        name: "Punjabi",
-        value: "Punjabi",
-    },
-    {
-        name: "Bengali",
-        value: "Bengali",
-    },
-    {
-        name: "Maithili",
-        value: "Maithili",
-    },
-    {
-        name: "Odia",
-        value: "Odia",
-    },
-    {
-        name: "Malayalam",
-        value: "Malayalam",
-    }
+    // {
+    //     name: "Hindi",
+    //     value: "Hindi",
+    // },
+    // {
+    //     name: "Kannada",
+    //     value: "Kannada",
+    // },
+    // {
+    //     name: "Urdu",
+    //     value: "Urdu",
+    // },
+    // {
+    //     name: "Telugu",
+    //     value: "Telugu",
+    // },
+    // {
+    //     name: "Tamil",
+    //     value: "Tamil",
+    // },
+    // {
+    //     name: "Punjabi",
+    //     value: "Punjabi",
+    // },
+    // {
+    //     name: "Bengali",
+    //     value: "Bengali",
+    // },
+    // {
+    //     name: "Maithili",
+    //     value: "Maithili",
+    // },
+    // {
+    //     name: "Odia",
+    //     value: "Odia",
+    // },
+    // {
+    //     name: "Malayalam",
+    //     value: "Malayalam",
+    // }
 ]

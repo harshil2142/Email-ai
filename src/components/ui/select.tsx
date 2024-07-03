@@ -155,11 +155,12 @@ interface selectProps{
   placeholder ?: string,
   className ?: string,
   value ?: string,
+  isDisabled ?: boolean,
 }
 
  function SelectOptions(props:selectProps) {
   return (
-    <Select value={props.value} onValueChange={props.onChange}>
+    <Select disabled={props.isDisabled || false} value={props.value} onValueChange={props.onChange}>
       <SelectTrigger className={cn(props.className)}>
         <SelectValue placeholder={props.placeholder || "Select"} />
       </SelectTrigger>

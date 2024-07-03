@@ -10,20 +10,31 @@ import { get } from 'lodash';
 import { languageOptions, lengthOptions, toneOptions } from './helper';
 import { Slider } from '@/components/ui/slider';
 import { postRequest } from '@/services/api';
+import Loader from '@/components/Loader/Loader';
 
-const ReplyToEmail = (props:any) => {
+const ReplyToEmail = (selectProps: any) => {
+
+    const { setResponse, response, setLoading, loading } = selectProps || {}
 
     async function onSubmit(data: any) {
+        setLoading(true)
         const payload = {
             type: "reply",
             subject: data?.replySubject,
             length_of_email: data?.length,
             tone: data?.tone,
             language: data?.language,
-            original_email : data?.receivedEmail,
+            original_email: data?.receivedEmail,
         }
-        const res = await postRequest({ data: { ...payload }, url: "/api/emails" })
-        props.setResponse(res?.data)
+        try {
+            const res = await postRequest({ data: { ...payload }, url: "/api/emails" })
+            if (res) {
+                setResponse(res?.data)
+                setLoading(false)
+            }
+        } catch (error) {
+            setLoading(false)
+        }
     };
 
     const form = useForm<z.infer<typeof replyMailSchema>>({
@@ -31,8 +42,8 @@ const ReplyToEmail = (props:any) => {
         defaultValues: {
             replySubject: "",
             receivedEmail: "",
-            length: "",
-            tone: "",
+            length: "Short",
+            tone: "Casual",
             language: "English",
         },
     });
@@ -59,7 +70,7 @@ const ReplyToEmail = (props:any) => {
                                 form={form}
                                 name="replySubject"
                                 renderComponent={(props: any) => (
-                                    <Textarea rows={4} {...props}  />
+                                    <Textarea rows={4} {...props} />
                                 )}
                                 title="Reply Subject"
                             />
@@ -74,7 +85,7 @@ const ReplyToEmail = (props:any) => {
                                 form={form}
                                 name="receivedEmail"
                                 renderComponent={(props: any) => (
-                                    <Textarea rows={4} {...props}  />
+                                    <Textarea rows={4} {...props} />
                                 )}
                                 title="Received Email"
                             />
@@ -142,15 +153,17 @@ const ReplyToEmail = (props:any) => {
                                 name="language"
                                 // placeholder="Enter language Name.."
                                 renderComponent={(props: any) => (
-                                    <SelectOptions
-                                        menuOptions={languageOptions}
-                                        selectLabel={"Select Language"}
-                                        textKey="name"
-                                        valueKey="value"
-                                        className={props.className}
-                                        onChange={props.onChange}
-                                        value={props.value}
-                                    />
+                                    // <SelectOptions
+                                    //     menuOptions={languageOptions}
+                                    //     selectLabel={"Select Language"}
+                                    //     textKey="name"
+                                    //     valueKey="value"
+                                    //     isDisabled={true}
+                                    //     className={props.className}
+                                    //     onChange={props.onChange}
+                                    //     value={props.value}
+                                    // />
+                                    <TextInput value="English" onChange={undefined} />
                                 )}
                                 title="Language"
                             />
@@ -158,9 +171,10 @@ const ReplyToEmail = (props:any) => {
                         <div className="flex items-center justify-between">
                             <button
                                 type="submit"
+                                disabled={loading}
                                 className="bg-dark hover:bg-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             >
-                                Submit
+                                {loading ? <Loader /> : "Submit"}
                             </button>
                         </div>
                     </form>

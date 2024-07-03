@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { cn } from "@/lib/utils"
 import { LuMail } from 'react-icons/lu';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -8,6 +8,11 @@ import ReplyToEmail from './ReplyToEmail';
 const EmailWrite = (props:any) => {
 
     const { response , setResponse } = props || {}
+    const [ loading,setLoading] = useState<boolean>(false)
+
+    const selectProps ={
+        response,setResponse,loading,setLoading
+    }
 
     return (
         <div className='py-6'>
@@ -17,14 +22,14 @@ const EmailWrite = (props:any) => {
                 </div>
                 <Tabs defaultValue={"composeNewEmail"} className={cn("w-full")}>
                     <TabsList className='w-full'>
-                        <TabsTrigger value="composeNewEmail">Compose New Email</TabsTrigger>
-                        <TabsTrigger value="replyToEmail">Reply To Email</TabsTrigger>
+                        <TabsTrigger value="composeNewEmail" onClick={() => setResponse("")}>Compose New Email</TabsTrigger>
+                        <TabsTrigger value="replyToEmail" onClick={() => setResponse("")} >Reply To Email</TabsTrigger>
                     </TabsList>
                     <TabsContent value="composeNewEmail">
-                        <ComposeNewEmail setResponse={setResponse} response={response} />
+                        <ComposeNewEmail {...selectProps} />
                     </TabsContent>
                     <TabsContent value="replyToEmail">
-                        <ReplyToEmail setResponse={setResponse} response={response} />
+                        <ReplyToEmail {...selectProps} />
                     </TabsContent>
                 </Tabs>
                

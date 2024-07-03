@@ -5,14 +5,20 @@ import { FaRegCopy } from "react-icons/fa6";
 const GenerateEmail = (props:any) => {
 
   const { response , setResponse } = props || {}
-
-  // const content = "Subject: Re: Quarterly Business Review Meeting\n\nDear John,\n\nI trust this email finds you well. I am writing in response to your recent request regarding the scheduling of our Quarterly Business Review Meeting.\n\nI am available to meet next week on [Date] and [Date]. I propose we schedule the meeting for [Time] on either of those days, but I am also open to any other slots you might suggest that could be more convenient for the rest of the team.\n\nPlease let me know which date works best for you, and if there are any specific points or agenda items you would like us to prepare in advance.\n\nLooking forward to our productive session.\n\nBest regards,\n\n[Your Name]"
+  const [characterCount, setCharacterCount] = React.useState(0);
 
   const paragraphs = response?.email?.split('\n\n') || [];
+
+  React.useEffect(() => {
+      if(Array.isArray(paragraphs) && paragraphs?.length > 0){
+        setCharacterCount(paragraphs?.reduce((acc:any, curr:any) => acc + curr?.length, 0))
+      }
+  }, [paragraphs])
+  
   return (
     <div>
       <div className='py-6'>
-        <div className=" mx-3 bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className={` ${!response?.email && "min-h-[42rem]"} mx-3  bg-white shadow-lg rounded-lg overflow-hidden`}>
           <div className="border-b-2 border-gray-300 p-4">
             <h2 className="text-large justify-start items-center font-bold text-dark flex"> <LuMail className='mr-2 text-xl' /> Email </h2>
           </div>
@@ -30,8 +36,9 @@ const GenerateEmail = (props:any) => {
                 </p>
               ))}
             </p>
-            { response?.email && <div className='flex justify-end mr-4 cursor-pointer' onClick={() => navigator.clipboard.writeText(response?.email)}>
-            <FaRegCopy />
+            { response?.email && <div className='flex justify-start cursor-pointer items-center'>
+            <div  onClick={() => navigator.clipboard.writeText(response?.email)}><FaRegCopy /></div>
+            <div className='ml-4'>Total Character : {characterCount || 0}</div>
             </div>}
           </div>
         </div>
