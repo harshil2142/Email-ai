@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Deploying a Next.js Application to AWS EC2:
 
-First, run the development server:
+## 1. SSH Connection to AWS EC2
+
+First, ensure you have the .pem key file for your EC2 instance. Then use this command to connect:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+ssh -i /path/to/your-key.pem ec2-user@your-ec2-public-ip
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Replace `/path/to/your-key.pem` with the actual path to your .pem file, and `your-ec2-public-ip` with your EC2 instance's public IP address.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 2. Git Repository Clone
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Once connected to your EC2 instance, clone your Git repository:
 
-## Learn More
+```bash
+git clone https://github.com/harshil2142/Email-ai.git
+cd Email-ai
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 3. NPM Package Download
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Install the necessary npm packages:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+npm install
+```
 
-## Deploy on Vercel
+## 4. PM2 Server and Package Download
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Install PM2 globally:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+npm install -g pm2
+```
+
+## 5. Set .env File
+
+Create and edit your .env file:
+
+```bash
+nano .env.local
+```
+
+Add your environment variables here. For example:
+
+```
+NEXT_PUBLIC_API_HOST=http://your_ip:5002
+```
+Replace your_ip with running EC2 instance IP.
+
+Save and exit (Ctrl+X, then Y, then Enter).
+
+## 6. Application Build
+
+Build your Next.js application:
+
+```bash
+npm run build
+```
+
+## 7. PM2 Server Start
+
+Start your application with PM2:
+
+```bash
+pm2 start npm --name "your-app-name" -- start
+```
+
+Replace "your-app-name" with a name for your application.
+
+To ensure PM2 starts your app on system reboot:
+
+```bash
+pm2 startup
+pm2 save
+```
+
+## 8. Update EC2 Security Groups
+
+This step is done in the AWS Console, not via command line:
+
+1. Go to your EC2 dashboard
+2. Click on your instance
+3. Go to the "Security" tab
+4. Click on the Security Group
+5. Edit inbound rules
+6. Add a rule for your application port (usually 3000 for Next.js)
+7. Save rules
+
+## Additional Helpful Commands
+
+- To view your running applications:
+  ```bash
+  pm2 list
+  ```
+
+- To monitor your application:
+  ```bash
+  pm2 monit
+  ```
+
+- To view logs:
+  ```bash
+  pm2 logs
+  ```
+
+- To stop your application:
+  ```bash
+  pm2 stop your-app-name
+  ```
+
+- To restart your application:
+  ```bash
+  pm2 restart your-app-name
+  ```
+
+Remember to replace placeholders like `your-username`, `your-repo`, `your-app-name`, etc., with your actual values.
